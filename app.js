@@ -3,8 +3,8 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var imager = require('google_scrape');
-console.log(imager)
+var imager = require('./google_scrape');
+//console.log(imager)
 var bodyParser = require('body-parser');
 var port = 3343;
 

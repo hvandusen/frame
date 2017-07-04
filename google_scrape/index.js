@@ -9,17 +9,30 @@ process.argv.forEach(function (val, index, array) {
   }
 });
 
-scraper.address = "https://www.google.com/search?q="+search_string+"&tbm=isch";
-scraper.on("image",function(image){
-    out += image.attributes.src + "\n"
-    fs.appendFile('log.txt', image.attributes.src + "\n", function (err) {
-      if (err) {
-        // append failed
-      } else {
-        // done
-      }
-    })
-})
-scraper.scrape();
 
-module.exports = {hi:"what is good"}
+
+module.exports = {
+  searchByString: function(search_string){
+  var images = [];
+  scraper.address = "https://www.google.com/search?q="+search_string+"&tbm=isch";
+  scraper.on("image",function(image){
+    var queued_img = new Promise((resolve, reject) => {0
+    out += image.attributes.src + "\n"
+  	console.log(image.attributes.src)
+      fs.appendFile('log.txt', image.attributes.src + "\n", function (err) {
+        if (err) {
+          // append failed
+        } else {
+          // done
+        }
+      })
+      images.push(queued_img)
+      });
+  })
+  scraper.scrape();
+  Promise.all(images).then(values => {
+  console.log(values); // [3, 1337, "foo"]
+});
+}
+}
+module.exports.searchByString("cat")
