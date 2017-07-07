@@ -7,12 +7,10 @@ var flag_choices = ["h", "g", "a", "o", "s", "l", "n#", "over", "syns", "simsv",
 "grep"];
 
 stdin.addListener("data", function(d) {
-  console.log("found:",d.toString())
-  console.log(flag_choices)
   if(d.toString() === "options\n"){
     console.log(flag_choices.join("\n"))
   }
-  if(flag_choices.indexOf(d.toString())> -1){
+  if(flag_choices.indexOf(d.toString().replace("\n",""))> -1){
     flags = d.toString();
     console.log("flag is now " + flags)
   }
