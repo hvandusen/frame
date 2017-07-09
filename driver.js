@@ -9,14 +9,13 @@ var flag_choices = ["h", "g", "a", "o", "s", "l", "n#", "over", "syns", "simsv",
 stdin.addListener("data", function(d) {
   if(d.toString() === "options\n"){
     console.log(flag_choices.join("\n"))
+    return;
   }
   if(flag_choices.indexOf(d.toString().replace("\n",""))> -1){
-    flags = d.toString();
-    console.log("flag is now " + flags)
+    flags = [d.toString().replace("\n","")];
+    return;
   }
-  if(d.toString().indexOf('"'))
-    flags = [d.toString().split('"')[1]]
-        wn(d.toString().trim(),["over"]).then(function(items){
-          console.log(items)
-        });
+  wn(d.toString().trim(),flags).then(function(items){
+    console.log(items)
   });
+});

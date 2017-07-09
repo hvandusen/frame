@@ -3,14 +3,16 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var imager = require('./google_scrape');
+// var imager = require('./google_scrape');
+var wn = require('./wn.js').wn;
 //console.log(imager)
 var bodyParser = require('body-parser');
 var port = 3343;
-
 var index = require('./routes/index');
 var users = require('./routes/users');
-
+var wn_json = require('./wn_json');
+console.log("fuk")
+console.log(wn_json)
 var app = express();
 
 // view engine setup
@@ -49,5 +51,10 @@ app.use(function(err, req, res, next) {
 app.listen(port,function(){
 	console.log("we're going at",port);
 });
+
+wn("dog",["synsn"]).then(function(response){
+    var data = wn_json(response);
+});
+
 
 module.exports = app;

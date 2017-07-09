@@ -7,7 +7,11 @@ function execute(command, callback){
 
 function wn(term,args){
   let myFirstPromise = new Promise((resolve, reject) => {
-    var flags = (args.length>1 ? "-"+args.join(" -") : "-"+args[0]);
+    if(typeof args === "string"){
+      args = [args]
+    }
+    var flags = (args.length>1 ? args.join(" -") : "-"+args[0]);
+    console.log("executing "+"wn " + term +" "+flags)
       execute("wn " + term +" "+flags,function(item){
         resolve(item);
       })
