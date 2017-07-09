@@ -10,9 +10,7 @@ var bodyParser = require('body-parser');
 var port = 3343;
 var index = require('./routes/index');
 var users = require('./routes/users');
-var wn_json = require('./wn_json');
-console.log("fuk")
-console.log(wn_json)
+var wn_parse = require('./wn_parse');
 var app = express();
 
 // view engine setup
@@ -52,8 +50,11 @@ app.listen(port,function(){
 	console.log("we're going at",port);
 });
 
-wn("dog",["synsn"]).then(function(response){
-    var data = wn_json(response);
+var flagMethod = "over"
+
+wn("dog",[flagMethod]).then(function(response){
+    var data = wn_parse[flagMethod](response);
+    // console.log(data)
 });
 
 
