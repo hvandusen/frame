@@ -42,7 +42,7 @@ function over(input){
   else {
     output[current_part].push(line);
     console.log(line);
-    line = line.replace();
+    line = line.replace(/^/);
     console.log(line);
   }
  }

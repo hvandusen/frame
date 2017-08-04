@@ -6,3 +6,23 @@ body {
 a {
   color: #00B7FF;
 }
+
+.result {
+  border-bottom: black solid 1px;
+}
+
+.syn-link {
+  display: inline-block;
+}
+
+.listing .word {
+  display: inline;
+}
+
+.listing .count {
+  display: inline;
+}
+
+.listing .pos {
+  display: inline;
+}

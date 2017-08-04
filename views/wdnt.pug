@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 WORDNET!!!!
+  h1 #{title}
+  each result,i in results
+    div(class='results')
+      div(class="result listing")
+        h1(class='count') #{i+1})&nbsp;
+        h2(class='word') #{title},&nbsp;
+        h2(class='pos') #{result.pos}.&nbsp;
+        span id:
+        a(class='synsetOffset' href='/wn/syn/'+result.synsetOffset) #{result.synsetOffset}
+        p(class='pos') part of speech: #{result.pos}
+        //-
+          p(class='lemma') lemma: #{result.lemma}
+        div(class=syns) synonyms:
+          each syn,j in result.synonyms
+            a(class="syn-link" href='/wn/'+syn) #{syn},&nbsp;
+        p(class='gloss') ex.: #{result.gloss}

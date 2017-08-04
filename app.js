@@ -2,20 +2,27 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var WordNet = require('node-wordnet');
+var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var pathList = {};
 // var imager = require('./google_scrape');
 var wn = require('./wn.js').wn;
 //console.log(imager)
 var bodyParser = require('body-parser');
 var port = 3343;
 var index = require('./routes/index');
+var wdnt = require('./routes/wdnt');
 var users = require('./routes/users');
-var wn_parse = require('./wn_parse');
+var wordnet = new WordNet()
+var search;
+var searchTerm;
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -27,6 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/wn',wdnt);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,13 +58,6 @@ app.use(function(err, req, res, next) {
 
 app.listen(port,function(){
 	console.log("we're going at",port);
-});
-
-var flagMethod = "over"
-
-wn("dog",[flagMethod]).then(function(response){
-    var data = wn_parse[flagMethod](response);
-    // console.log(data)
 });
 
 

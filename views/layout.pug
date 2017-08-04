@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    form(action="/wn")
+      input(type="text",class="search",name="search")
+      input(type="submit",class="search-submit")
+    block content
