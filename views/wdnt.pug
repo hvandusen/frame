@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  h1 WORDNET!!!!
   h1 #{title}
   each result,i in results
     div(class='results')
@@ -11,7 +10,6 @@ block content
         h2(class='pos') #{result.pos}.&nbsp;
         span id:
         a(class='synsetOffset' href='/wn/syn/'+result.synsetOffset) #{result.synsetOffset}
-        p(class='pos') part of speech: #{result.pos}
         //-
           p(class='lemma') lemma: #{result.lemma}
         div(class=syns) synonyms:
