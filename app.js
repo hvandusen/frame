@@ -2,23 +2,20 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var WordNet = require('node-wordnet');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var pathList = {};
 // var imager = require('./google_scrape');
-var wn = require('./wn.js').wn;
 //console.log(imager)
 var bodyParser = require('body-parser');
 var port = 3343;
 var index = require('./routes/index');
 var wdnt = require('./routes/wdnt');
 var users = require('./routes/users');
-var wordnet = new WordNet()
-var search;
-var searchTerm;
 var app = express();
 //https://github.com/morungos/wordnet
+var WordSearcher = require("./WordSearcher")
+var wn = new WordSearcher();
+wn.tangent("duke",10);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

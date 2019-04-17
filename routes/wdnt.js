@@ -5,7 +5,7 @@ var searchTerm = "node";
 var WordNet = require('node-wordnet')
 var wordnet = new WordNet()
 wordnet.lookup("node", function(results) {
-  console.log(results)
+  // console.log(results)
   search = results;
 });
 /* GET users listing. */
