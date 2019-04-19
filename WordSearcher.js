@@ -4,10 +4,7 @@ var fs = require("fs");
 class WordSearcher {
   constructor(){
     this.wn = new wnClass();
-    this.lookups= [];
-    this.masterList = [];
-    this.train = [];
-    this.promises = []
+    
   }
 
   lookup(word){
@@ -37,7 +34,7 @@ class WordSearcher {
     // console.log("fragment for ",word,": ",fragment)
     let choice;
     if(count===0){
-      console.log("done!",list)
+      // console.log("done!",list)
       return list;
     }
     if(fragment){
@@ -45,7 +42,7 @@ class WordSearcher {
         let seed = Math.floor(Math.random()*fragment.words.length);
         choice = fragment.words[seed]
       } while(list.indexOf(choice)>-1 && choice.length>5);
-      console.log("chpoice:",choice,list)
+      // console.log("chpoice:",choice,list)
       list.push(choice);
       count--;
       await this.stream(choice,count,list);
@@ -75,7 +72,7 @@ class WordSearcher {
   }
   trainOfThought(word,amount){
     this.tangent(process.argv[2],15).then(()=>{
-      console.log("shit")
+      // console.log("shit")
     });
 
     Promise.all(this.promises).then((ya)=>{
@@ -116,7 +113,7 @@ class WordSearcher {
           let next = tangents[Math.floor(Math.random()*tangents.length)].replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
           this.masterList.push({string: string,tangents: tangents})
           this.promises.push(this.tangent(next,counter-1));
-          console.log(next)
+          // console.log(next)
           if(counter === 1)
           res(next);
         }
