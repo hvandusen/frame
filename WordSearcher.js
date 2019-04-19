@@ -25,12 +25,36 @@ class WordSearcher {
     })
   }
   async tangents(word="nuts",offset = 0) {
-    const pageSize = 3;
-    const sentence = [...'hello world'];
     let words = await this.lookup(word);
-    words = words.map( e => this.getTangents(e)).join();
-    return words.length ? words : undefined;
+    let entries = words.length;
+    words = words.map( e => this.getTangents(e)).join().split(",");
+    return entries ? {words:words,entries:entries} : undefined;
   };
+
+  async stream(word="nuts",count = 10,list=[]){
+
+    let fragment = await this.tangents(word);
+    // console.log("fragment for ",word,": ",fragment)
+    let choice;
+    if(count===0){
+      console.log("done!",list)
+      return list;
+    }
+    if(fragment){
+      do{
+        let seed = Math.floor(Math.random()*fragment.words.length);
+        choice = fragment.words[seed]
+      } while(list.indexOf(choice)>-1 && choice.length>5);
+      console.log("chpoice:",choice,list)
+      list.push(choice);
+      count--;
+      await this.stream(choice,count,list);
+    } else {
+      choice = list[list.length-1];
+      await this.stream(choice,count,list);
+    }
+  }
+
   formatEntry(entry){
     const fields = ["lemma","synonyms","def","gloss"];
     let out = {};
@@ -47,7 +71,7 @@ class WordSearcher {
       .concat(this.extractGoodWords(entry.def))
       .concat(this.extractGoodWords(entry.gloss));
       tangents = tangents.map(e => this.strip(e))
-    return tangents;
+    return this.arrayUnique(tangents);
   }
   trainOfThought(word,amount){
     this.tangent(process.argv[2],15).then(()=>{
@@ -60,7 +84,7 @@ class WordSearcher {
 
   }
   strip(string){
-    return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    return string.replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
   }
   tangent(string,count){
     return new Promise((res,rej)=>{
@@ -99,14 +123,18 @@ class WordSearcher {
       })
     })
   }
+  arrayUnique(arr){
+	return arr.filter(function(item, index){
+		return arr.indexOf(item) >= index;
+	});
+  }
   extractGoodWords(string){
     var choices = string.split(" ");
     choices = choices.filter((w)=>{
-      return w.length>3 && ["of","a","to","from","the","for"].indexOf(w)<0 ;
-    })
-    return choices
+      return w.length>3 && ["of","a","to","from","the","for","with","because","than"].indexOf(w)<0;
+    });
+    return this.arrayUnique(choices)
   }
-
 }
 
 module.exports = WordSearcher;

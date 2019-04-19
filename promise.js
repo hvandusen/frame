@@ -3,49 +3,31 @@ const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
 var WordSearcher = require("./WordSearcher")
 var wn = new WordSearcher();
 
-const getSentenceFragment = async function(offset = 0) {
+const streamFragment = async function(offset = 0) {
   let words = await wn.tangents("nuts");
   console.log(words)
 
 };
 
-
-
-
-const getSentence = async function(word="nuts",count = 10) {
-  const fragment = await wn.tangents(word)
-  let outy = "";
-  let list = [word];
+const stream = async function(word="nuts",count = 10,list=[]) {
+  let fragment = await wn.tangents(word);
+  //let list = [word];
   let choice = word;
-  let ctr = count;
-  wn.tangents(choice).then(next => {
-    console.log(next)
-    if(next){
-      next = next.split(",")
-      do{
-        choice = next[Math.floor(Math.random()*next.length)]
-      } while(list.indexOf(choice)>-1)
-      list.push(choice);
-      ctr --;
-    } else {
-
-    }
-  })
-
-  console.log(list)
-
-
-  // for (var i = 0; i < count; i++) {
-  //   let next =  await wn.tangents(choice)
-  //   next = next.split(",")
-  //   // console.log("next",next)
-  //   choice = next[Math.floor(Math.random()*next.length)]
-  //   list.push(choice+" ");
-  // }
-  return list
+  if(count===-1)
+    return list;
+  if(fragment.words){
+    do{
+      fragment.data = [fragment.words[Math.floor(Math.random()*fragment.words.length)]]
+    } while(list.indexOf(fragment.data)>-1);
+    list.push(choice)
+    count--
+    return fragment.data.concat(await stream(choice,count))
+  } else {
+    return fragment.data.concat(await stream(choice,count))
+  }
 }
 
-getSentence("person")//.then(e => console.log(e))
+let listt = stream("ball",100).then(e => console.log(e))
 
 
 
